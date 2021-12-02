@@ -26,6 +26,16 @@ class MedicineService():
         ).update(
             db_in.dict(), synchronize_session="evaluate"
         )
+        db.commit()
+        return db.query(MedicineDetails).filter(MedicineDetails.medicine_id == medicine_id).first()
+    
+    def update_to_increase_stock(self, medicine_id: int, value: int, db: Session) -> Optional[Medicine]:
+        db.query(MedicineDetails).filter(
+            MedicineDetails.medicine_id == medicine_id
+        ).update(
+            {MedicineDetails.stock: MedicineDetails.stock + value}, synchronize_session=False
+        )
+        db.commit()
 
     def get_many(self, db: Session) -> List[Medicine]:
         return db.query(Medicines).all()

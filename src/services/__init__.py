@@ -6,3 +6,4 @@ from .type import type_service
 from .unit import unit_service
 from .category import category_service
 from .purchase import purchase_service
+from .customer import customer_service

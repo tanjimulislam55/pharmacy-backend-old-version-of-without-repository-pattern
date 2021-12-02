@@ -13,9 +13,10 @@ class PurchaseLineCreate(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "purchase_price": "0.0",
-                "purchased_qty": "0",
-                "medicine_id": "0"
+                "purchase_price": 0.0,
+                "purchased_qty": 0,
+                "medicine_id": 0,
+                "received_qty": 0
             }
         }
 
@@ -40,7 +41,7 @@ class PurchaseCreate(BaseModel):
 
 class Purchase(PurchaseCreate):
     id: int
-    purchase_items: Optional[List[PurchaseLine]] = None
+    purchase_lines: Optional[List[PurchaseLine]] = None
 
     class Config: 
         orm_mode = True

@@ -1,0 +1,6 @@
+alembic
+venv
+.env
+__pycache__
+alembic.ini
+.vscode

@@ -12,10 +12,11 @@ router = APIRouter(tags=["Purchase"])
 
 @router.post("/add_purchase", response_model=Purchase)
 def create_purchase(purchase_in: PurchaseCreate, purchase_line_in: List[PurchaseLineCreate], db: Session = Depends(get_db)) -> Any:
-    purchase = purchase_service.create(purchase_in, purchase_line_in, db)
-    if not purchase:
+    try:
+        purchase = purchase_service.create(purchase_in, purchase_line_in, db)
+        return purchase
+    except:
         raise HTTPException(404, detail="Unable to add purchase")
-    return purchase
 
 
 @router.get("/purchases", response_model=List[Purchase])
