@@ -49,6 +49,7 @@ class Medicines(Base):
     category_name = relationship("Categories", back_populates="medicines")
     medicine_detail = relationship("MedicineDetails", uselist=False, back_populates="medicine")
     purchase_lines = relationship("PurchaseLines", back_populates="medicine")
+    bill_lines = relationship("BillLines", back_populates="medicine")
 
 
 class MedicineDetails(Base):

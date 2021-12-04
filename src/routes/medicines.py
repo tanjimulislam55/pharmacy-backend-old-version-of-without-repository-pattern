@@ -38,12 +38,13 @@ def get_a_medicine(id: int, db: Session = Depends(get_db)) -> Any:
     return medicine
 
 
-@router.put("/medicine/{id}", response_model=Medicine)
+@router.put("/medicine/{id}", response_model=MedicineDetail)
 def update_a_medicine(id: int, db_in: MedicineDetailUpdate, db: Session = Depends(get_db)) -> Any:
     if medicine_service.get_one(id, db):
-        medicine = medicine_service.update(id, db_in)
+        medicine = medicine_service.update(id, db_in, db)
         if not medicine:
             JSONResponse(status_code=status.HTTP_304_NOT_MODIFIED, content="Could not update medicine detail")
+        return medicine
     raise HTTPException(404, detail=f"No medicine for id {id}")
 
 

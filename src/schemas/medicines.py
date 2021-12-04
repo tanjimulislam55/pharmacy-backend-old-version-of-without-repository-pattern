@@ -15,8 +15,9 @@ class MedicineDetail(MedicineDetailCreate):
         orm_mode = True
 
 
-class MedicineDetailUpdate(MedicineDetailCreate):
-    pass
+class MedicineDetailUpdate(BaseModel):
+    retail_price: Optional[float]
+    stock: Optional[int]
 
 
 class MedicineCreate(BaseModel):

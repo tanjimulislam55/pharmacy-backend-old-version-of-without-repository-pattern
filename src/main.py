@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from functools import lru_cache
 import os
 
-from routes import users, vendors, medicines, purchases, customers
+from routes import users, vendors, medicines, purchases, customers, bills
 
 
 app = FastAPI()
@@ -37,3 +37,4 @@ app.include_router(medicines.router)
 app.include_router(vendors.router)
 app.include_router(purchases.router)
 app.include_router(customers.router)
+app.include_router(bills.router)

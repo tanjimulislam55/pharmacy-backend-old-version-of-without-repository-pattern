@@ -36,12 +36,24 @@ class MedicineService():
             {MedicineDetails.stock: MedicineDetails.stock + value}, synchronize_session=False
         )
         db.commit()
+    
+    def update_to_dicrease_stock(self, medicine_id: int, value: int, db: Session) -> Optional[Medicine]:
+        db.query(MedicineDetails).filter(
+            MedicineDetails.medicine_id == medicine_id
+        ).update(
+            {MedicineDetails.stock: MedicineDetails.stock - value}, synchronize_session=False
+        )
+        db.commit()
 
     def get_many(self, db: Session) -> List[Medicine]:
         return db.query(Medicines).all()
 
     def get_one(self, id: int, db: Session) -> Medicine:
         return db.query(Medicines).filter(Medicines.id == id).first()
+
+    def get_retail_price(self, id: int, db: Session) -> int:
+        medicine_detail = db.query(MedicineDetails).filter(MedicineDetails.medicine_id == id).first()
+        return medicine_detail.retail_price
         
 
 

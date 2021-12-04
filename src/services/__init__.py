@@ -7,3 +7,4 @@ from .unit import unit_service
 from .category import category_service
 from .purchase import purchase_service
 from .customer import customer_service
+from .bill import bill_service

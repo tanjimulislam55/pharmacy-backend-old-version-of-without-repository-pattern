@@ -23,7 +23,6 @@ class PurchaseLineCreate(BaseModel):
 
 class PurchaseLine(PurchaseLineCreate):
     id: int 
-    purchase_id: int
 
     class Config: 
         orm_mode = True

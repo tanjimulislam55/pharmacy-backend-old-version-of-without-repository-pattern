@@ -28,7 +28,7 @@ def get_all_purchases(db: Session = Depends(get_db)) -> Any:
 
 
 @router.get("/purchase/{id}", response_model=Purchase)
-def get_all_purchases(di: int, db: Session = Depends(get_db)) -> Any:
+def get_a_purchase(id: int, db: Session = Depends(get_db)) -> Any:
     purchase = purchase_service.get_one(id, db)
     if not purchase:
         raise HTTPException(404, detail=f"No purchase for id {id}")
