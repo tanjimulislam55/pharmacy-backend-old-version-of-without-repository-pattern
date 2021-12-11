@@ -34,6 +34,11 @@ class UserUpdate(BaseModel):
 
 class User(UserBase):
     id: int
+    deactivated: bool
 
     class Config:
         orm_mode = True
+
+    
+class UserInDB(User):
+    password: str

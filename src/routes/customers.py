@@ -14,7 +14,7 @@ router = APIRouter(tags=["Customer"])
 def create_customer(customer_in: CustomerCreate, db: Session = Depends(get_db)) -> Any:
     if customer_service.get_by_phone(customer_in.phone, db):
         raise HTTPException(500, detail=f"{customer_in.phone} already been added")
-    if customer_service.get_by_email(customer_in.email, db):
+    if customer_in.email and customer_service.get_by_email(customer_in.email, db):
         raise HTTPException(500, detail=f"{customer_in.email} already in use by different customer")    
     customer = customer_service.create(customer_in, db)
     if not customer:

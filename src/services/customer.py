@@ -15,16 +15,16 @@ class CustomerService():
         db.refresh(db_obj)
         return db_obj
 
-    def get_many(self, db: Session) -> List[Customer]:
+    def get_many(self, db: Session) -> List[Customers]:
         return db.query(Customers).all()
 
-    def get_one(self, id: int, db: Session) -> Customer:
+    def get_one(self, id: int, db: Session) -> Optional[Customer]:
         return db.query(Customers).filter(Customers.id == id).first()
 
-    def get_by_phone(self, phone: str, db: Session) -> Optional[Customers]:
+    def get_by_phone(self, phone: str, db: Session) -> Optional[Customer]:
         return db.query(Customers).filter(Customers.phone == phone).first()
 
-    def get_by_email(self, email: EmailStr, db: Session) -> Optional[Customers]:
+    def get_by_email(self, email: EmailStr, db: Session) -> Optional[Customer]:
         return db.query(Customers).filter(Customers.email == email).first()
 
 

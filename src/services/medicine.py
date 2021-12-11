@@ -20,11 +20,11 @@ class MedicineService():
     def get_by_name(self, name: str, db: Session) -> Optional[Medicines]:
         return db.query(Medicines).filter(Medicines.name == name).first()
 
-    def update(self, medicine_id: int, db_in: MedicineDetailUpdate, db: Session) -> Medicine:
+    def update(self, medicine_id: int, db_in: MedicineDetailUpdate, db: Session) -> Optional[MedicineDetail]:
         db.query(MedicineDetails).filter(
             MedicineDetails.medicine_id == medicine_id
         ).update(
-            db_in.dict(), synchronize_session="evaluate"
+            db_in.dict(exclude_unset=True), synchronize_session="evaluate"
         )
         db.commit()
         return db.query(MedicineDetails).filter(MedicineDetails.medicine_id == medicine_id).first()
@@ -45,13 +45,13 @@ class MedicineService():
         )
         db.commit()
 
-    def get_many(self, db: Session) -> List[Medicine]:
+    def get_many(self, db: Session) -> List[Medicines]:
         return db.query(Medicines).all()
 
-    def get_one(self, id: int, db: Session) -> Medicine:
+    def get_one(self, id: int, db: Session) -> Optional[Medicines]:
         return db.query(Medicines).filter(Medicines.id == id).first()
 
-    def get_retail_price(self, id: int, db: Session) -> int:
+    def get_retail_price(self, id: int, db: Session):
         medicine_detail = db.query(MedicineDetails).filter(MedicineDetails.medicine_id == id).first()
         return medicine_detail.retail_price
         

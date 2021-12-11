@@ -4,19 +4,13 @@ from dotenv import load_dotenv
 from functools import lru_cache
 import os
 
-from routes import users, vendors, medicines, purchases, customers, bills
+from routes import users, vendors, medicines, purchases, customers, bills, tokens
 
 
 app = FastAPI()
 
 
-@lru_cache()
-def cached_dotenv():
-    load_dotenv()
-
-
-cached_dotenv()
-
+load_dotenv()
 
 origins = [
     os.environ.get("URL_ONE"),
@@ -38,3 +32,4 @@ app.include_router(vendors.router)
 app.include_router(purchases.router)
 app.include_router(customers.router)
 app.include_router(bills.router)
+app.include_router(tokens.router)

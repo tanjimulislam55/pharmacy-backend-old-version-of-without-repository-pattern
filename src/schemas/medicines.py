@@ -16,8 +16,8 @@ class MedicineDetail(MedicineDetailCreate):
 
 
 class MedicineDetailUpdate(BaseModel):
-    retail_price: Optional[float]
-    stock: Optional[int]
+    retail_price: Optional[float] = None
+    stock: Optional[int] = None
 
 
 class MedicineCreate(BaseModel):
@@ -45,6 +45,10 @@ class Type(TypeCreate):
 
     class Config:
         orm_mode = True
+
+
+class TypeDelete(BaseModel):
+    id: int
 
 
 class UnitCreate(BaseModel):

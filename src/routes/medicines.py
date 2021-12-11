@@ -38,7 +38,7 @@ def get_a_medicine(id: int, db: Session = Depends(get_db)) -> Any:
     return medicine
 
 
-@router.put("/medicine/{id}", response_model=MedicineDetail)
+@router.put("/update_medicine/{id}", response_model=MedicineDetail)
 def update_a_medicine(id: int, db_in: MedicineDetailUpdate, db: Session = Depends(get_db)) -> Any:
     if medicine_service.get_one(id, db):
         medicine = medicine_service.update(id, db_in, db)
@@ -59,7 +59,7 @@ def create_type(type_in: TypeCreate, db: Session = Depends(get_db)) -> Any:
 
 
 @router.post("/add_category", response_model=Category)
-def create_type(category_in: CategoryCreate, db: Session = Depends(get_db)) -> Any:
+def create_category(category_in: CategoryCreate, db: Session = Depends(get_db)) -> Any:
     if category_service.get_by_name(category_in.name, db):
         raise HTTPException(500, detail=f"{category_in.name} already been added")
     medicine_category = category_service.create(category_in, db)
@@ -69,7 +69,7 @@ def create_type(category_in: CategoryCreate, db: Session = Depends(get_db)) -> A
 
 
 @router.post("/add_unit", response_model=Unit)
-def create_type(unit_n: UnitCreate, db: Session = Depends(get_db)) -> Any:
+def create_unit(unit_n: UnitCreate, db: Session = Depends(get_db)) -> Any:
     if unit_service.get_by_name(unit_n.name, db):
         raise HTTPException(500, detail=f"{unit_n.name} already been added")
     medicine_unit = unit_service.create(unit_n, db)
@@ -87,7 +87,7 @@ def get_all_types(db: Session = Depends(get_db)) -> Any:
 
 
 @router.get("/units", response_model=List[Type])
-def get_all_types(db: Session = Depends(get_db)) -> Any:
+def get_all_units(db: Session = Depends(get_db)) -> Any:
     units = unit_service.get_many(db)
     if not units:
         return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content="No units found")
@@ -95,10 +95,21 @@ def get_all_types(db: Session = Depends(get_db)) -> Any:
 
 
 @router.get("/categories", response_model=List[Type])
-def get_all_types(db: Session = Depends(get_db)) -> Any:
+def get_all_categories(db: Session = Depends(get_db)) -> Any:
     categories = category_service.get_many(db)
     if not categories:
         return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content="No categories found")
     return categories
+
+
+@router.delete("/type/{id}")
+def delete_type(id: int, db: Session = Depends(get_db)) -> Any:
+    try:
+        deleted_type = type_service.delete(id, db)
+        if not delete_type:
+            raise HTTPException(404, detail="Could not delete type")
+        return deleted_type
+    except:
+        raise HTTPException(500, detail="This type cannot be deleted as it is associated with medicine/s`")
 
 

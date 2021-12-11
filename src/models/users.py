@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql.sqltypes import Boolean
 
 from db.config import Base
 
@@ -20,7 +21,8 @@ class Users(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     username = Column(String(50), unique=True, nullable=False)
     email = Column(String(100), unique=True, nullable=False)
-    hashed_password = Column(String(255))
+    password = Column(String(255))
+    deactivated = Column(Boolean, nullable=False, default=True)
 
     role_id = Column(Integer, ForeignKey("roles.id"))
 

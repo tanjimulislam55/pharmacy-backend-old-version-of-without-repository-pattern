@@ -11,14 +11,14 @@ class GenderEnum(enum.Enum):
 
 
 class BloodGroupEnum(enum.Enum):
-    a_positive = "A+"
-    a_negative = "A-"
-    b_positive = "B+"
-    b_negative = "B-"
-    o_positive = "O+"
-    o_negative = "O-"
-    ab_positive = "AB+"
-    ab_negative = "AB-"
+    ap = "A+"
+    an = "A-"
+    bp = "B+"
+    bn = "B-"
+    op = "O+"
+    on = "O-"
+    abp = "AB+"
+    abn = "AB-"
 
 
 class Customers(Base):
@@ -29,7 +29,7 @@ class Customers(Base):
     email = Column(String(100), unique=True, nullable=False)
     phone = Column(String(14), unique=True)
     gender = Column(Enum(GenderEnum), nullable=False)
-    blood_group = Column(Enum(BloodGroupEnum))
+    bloodgroup = Column(Enum(BloodGroupEnum))
     city = Column(String(20))
     birthdate = Column(Date)
     location = Column(String(255), nullable=False)

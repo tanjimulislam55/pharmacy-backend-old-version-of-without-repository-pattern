@@ -6,12 +6,8 @@ from dotenv import load_dotenv
 from functools import lru_cache
 import os
 
-@lru_cache()
-def cached_dotenv():
-    load_dotenv()
 
-
-cached_dotenv()
+load_dotenv()
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 

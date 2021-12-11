@@ -20,7 +20,7 @@ class RoleService():
     #     self.db.refresh(db_obj)
     #     return db_obj
 
-    def get_many(self, db: Session) -> List[Role]:
+    def get_many(self, db: Session) -> List[Roles]:
         return db.query(Roles).all()
         
 

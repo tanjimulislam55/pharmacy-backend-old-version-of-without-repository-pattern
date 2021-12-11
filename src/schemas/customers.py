@@ -12,14 +12,14 @@ class GenderEnum(str, Enum):
 
 
 class BloodGroupEnum(str, Enum):
-    a_positive = "A+"
-    a_negative = "A-"
-    b_positive = "B+"
-    b_negative = "B-"
-    o_positive = "O+"
-    o_negative = "O-"
-    ab_positive = "AB+"
-    ab_negative = "AB-"
+    ap = "A+"
+    an = "A-"
+    bp = "B+"
+    bn = "B-"
+    op = "O+"
+    on = "O-"
+    abp = "AB+"
+    abn = "AB-"
 
 
 class CustomerCreate(BaseModel):
@@ -27,9 +27,10 @@ class CustomerCreate(BaseModel):
     email: Optional[EmailStr] = None
     phone: str
     gender: GenderEnum
-    blood_group: Optional[BloodGroupEnum] = None
+    bloodgroup: Optional[BloodGroupEnum] = None
     birthdate: Optional[date] = None
     location: str
+    city: Optional[str] = None
     country: Optional[str] = None
     zip_code: Optional[int] = None
 
