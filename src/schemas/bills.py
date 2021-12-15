@@ -10,7 +10,7 @@ class BillLineCreate(BaseModel):
 
 
 class BillLine(BillLineCreate):
-    id: int 
+    id: int
     bill_id: int
 
     class Config: 
