@@ -6,7 +6,7 @@ from sqlalchemy.orm.session import Session
 from db.config import get_db
 from schemas.medicines import MedicineDetailUpdate
 from services import medicine_service, type_service, category_service, unit_service
-from schemas import MedicineDetail, Medicine, MedicineDetailCreate, MedicineCreate, TypeCreate, Type, UnitCreate, Unit, Category, CategoryCreate
+from schemas import MedicineDetail, Medicine, MedicineCreate, TypeCreate, Type, UnitCreate, Unit, Category, CategoryCreate
 
 
 router = APIRouter(tags=["Medicine"])
@@ -106,10 +106,55 @@ def get_all_categories(db: Session = Depends(get_db)) -> Any:
 def delete_type(id: int, db: Session = Depends(get_db)) -> Any:
     try:
         deleted_type = type_service.delete(id, db)
-        if not delete_type:
-            raise HTTPException(404, detail="Could not delete type")
-        return deleted_type
+        if not deleted_type:
+            raise HTTPException(406, detail="Could not delete type")
+        return JSONResponse(status_code=status.HTTP_202_ACCEPTED, content="Successfully delted")
     except:
-        raise HTTPException(500, detail="This type cannot be deleted as it is associated with medicine/s`")
+        raise HTTPException(409, detail="This type cannot be deleted as it is associated with medicine/s`")
 
+
+@router.delete("/unit/{id}")
+def delete_unit(id: int, db: Session = Depends(get_db)) -> Any:
+    try:
+        deleted_unit = unit_service.delete(id, db)
+        if not deleted_unit:
+            raise HTTPException(406, detail="Could not delete unit")
+        return JSONResponse(status_code=status.HTTP_202_ACCEPTED, content="Successfully delted")
+    except:
+        raise HTTPException(409, detail="This unit cannot be deleted as it is associated with medicine/s`")
+
+
+@router.delete("/category/{id}")
+def delete_category(id: int, db: Session = Depends(get_db)) -> Any:
+    try:
+        deleted_category = category_service.delete(id, db)
+        if not deleted_category:
+            raise HTTPException(406, detail="Could not delete category")
+        return JSONResponse(status_code=status.HTTP_202_ACCEPTED, content="Successfully delted")
+    except:
+        raise HTTPException(409, detail="This category cannot be deleted as it is associated with medicine/s`")
+
+
+@router.put("/type/{id}")
+def update_type_name(id: int, name: str, db: Session = Depends(get_db)) -> Any:
+    updated_type = type_service.update(id, name, db)
+    if not updated_type:
+        raise HTTPException(406, detail="Could not update type")
+    return updated_type
+
+
+@router.put("/unit/{id}")
+def update_unit_name(id: int, name: str, db: Session = Depends(get_db)) -> Any:
+    updated_unit = unit_service.update(id, name, db)
+    if not updated_unit:
+        raise HTTPException(406, detail="Could not update unit")
+    return updated_unit
+
+
+@router.put("/category/{id}")
+def update_category_name(id: int, name: str, db: Session = Depends(get_db)) -> Any:
+    updated_category = category_service.update(id, name, db)
+    if not updated_category:
+        raise HTTPException(406, detail="Could not update unit")
+    return updated_category
 

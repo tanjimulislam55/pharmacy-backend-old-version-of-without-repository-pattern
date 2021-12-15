@@ -60,7 +60,7 @@ def get_a_user(id: int, db: Session = Depends(get_db)) -> Any:
 def update_a_user(id: int, user_in: UserUpdate, db: Session = Depends(get_db)) -> Any:
     user = user_service.update(id, user_in, db)
     if not user:
-        raise HTTPException(404, detail="Unable to update a user")
+        raise HTTPException(406, detail="Unable to update a user")
     return user
 
 
@@ -68,7 +68,7 @@ def update_a_user(id: int, user_in: UserUpdate, db: Session = Depends(get_db)) -
 def update_user_role(id: int, role_id: int, db: Session = Depends(get_db)) -> Any:
     user = user_service.update_role(id, role_id, db)
     if not user:
-        raise HTTPException(404, detail="Unable to update a user")
+        raise HTTPException(406, detail="Unable to update a user")
     return user
 
 

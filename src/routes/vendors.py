@@ -5,7 +5,7 @@ from sqlalchemy.orm.session import Session
 
 from db.config import get_db
 from services import vendor_service
-from schemas import VendorCreate, Vendor
+from schemas import VendorCreate, Vendor, VendorUpdate
 
 router = APIRouter(tags=["Vendor"])
 
@@ -37,3 +37,13 @@ def get_a_vendor(id: int, db: Session = Depends(get_db)) -> Any:
         raise HTTPException(404, detail=f"No vendor for id {id}")
     return vendor
 
+
+@router.put("/vendor/{id}", response_model=Vendor)
+def update_a_vendor(id: int, vendor_in: VendorUpdate, db: Session = Depends(get_db)) -> Any:
+    try:
+        updated_vendor = vendor_service.update(id, vendor_in, db)
+        if not updated_vendor:
+            raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, detail="Could not update vendor")
+        return updated_vendor
+    except:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="This vendor cannot be deleted as it is associated with medicine/s`")

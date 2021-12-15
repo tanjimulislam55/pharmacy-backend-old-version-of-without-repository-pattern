@@ -37,3 +37,21 @@ def get_a_customer(id: int, db: Session = Depends(get_db)) -> Any:
         raise HTTPException(404, detail=f"No customer for id {id}")
     return customer
 
+
+@router.delete("/customer/{id}")
+def remove_a_customer(id: int, db: Session = Depends(get_db)) -> Any:
+    try:
+        deleted_customer = customer_service.delete(id, db)
+        if not deleted_customer:
+            raise HTTPException(406, detail="Could not delete cusotmer")
+        return JSONResponse(status_code=status.HTTP_202_ACCEPTED, content="Successfully deleted")
+    except:
+        raise HTTPException(409, detail="This customer cannot be deleted as it is associated with order/s`")
+
+
+@router.put("/customer/{id}", response_model=Customer)
+def update_a_customer(id: int, customer_in: CustomerUpdate, db: Session = Depends(get_db)):
+    updated_customer = customer_service.update(id, customer_in, db)
+    if not updated_customer:
+        raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, detail="Could not update customer")
+    return updated_customer
