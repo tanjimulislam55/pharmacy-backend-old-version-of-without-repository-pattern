@@ -38,14 +38,25 @@ class CustomerCreate(BaseModel):
         use_enum_values = True
 
 
-class CustomerUpdate(CustomerCreate):
-    pass
-
-
 class Customer(CustomerCreate):
     id: int
 
     class Config:
         orm_mode = True
 
+
+class CustomerUpdate(CustomerCreate):
+    name: Optional[str] 
+    email: Optional[EmailStr] = None
+    phone: Optional[str]
+    gender: Optional[GenderEnum]
+    bloodgroup: Optional[BloodGroupEnum] = None
+    birthdate: Optional[date] = None
+    location: Optional[str]
+    city: Optional[str] = None
+    country: Optional[str] = None
+    zip_code: Optional[int] = None
+
+    class Config:
+        use_enum_values = True
 
