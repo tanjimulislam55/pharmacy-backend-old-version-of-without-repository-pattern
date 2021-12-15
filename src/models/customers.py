@@ -4,13 +4,13 @@ import enum
 
 from db.config import Base
 
-class GenderEnum(enum.Enum):
+class GenderEnum(str, enum.Enum):
     male = "Male"
     female = "Female"
     other = "Other"
 
 
-class BloodGroupEnum(enum.Enum):
+class BloodGroupEnum(str, enum.Enum):
     ap = "A+"
     an = "A-"
     bp = "B+"
