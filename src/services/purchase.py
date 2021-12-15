@@ -26,13 +26,13 @@ class PurchaseService():
         db.refresh(db_obj)
         return db_obj
 
-    def get_many(self, db: Session) -> List[Purchase]:
+    def get_many(self, db: Session) -> List[Purchases]:
         return db.query(Purchases).all()
 
-    def get_one(self, id: int, db: Session) -> Purchase:
+    def get_one(self, id: int, db: Session) -> Optional[Purchases]:
         return db.query(Purchases).filter(Purchases.id == id).first()
 
-    def update_sold_qty(self, id: int, value: int, db: Session) -> PurchaseLine:
+    def update_sold_qty(self, id: int, value: int, db: Session):
         db.query(PurchaseLines).filter(PurchaseLines.id == id).update(
             {PurchaseLines.sold_qty: PurchaseLines.sold_qty + value}, synchronize_session=False
         )
