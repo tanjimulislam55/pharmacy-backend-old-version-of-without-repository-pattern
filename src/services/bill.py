@@ -43,11 +43,11 @@ class BillService():
         db.refresh(db_obj)
         return db_obj
 
-    def get_many(self, db: Session) -> List[Bill]:
+    def get_many(self, db: Session) -> List[Bills]:
         return db.query(Bills).all()
 
-    def get_one(self, db: Session) -> Bill:
-        db.query(Bills).filter(Bills.id == id).first()
+    def get_one(self, id: int, db: Session) -> Optional[Bills]:
+        return db.query(Bills).filter(Bills.id == id).first()
         
 
 

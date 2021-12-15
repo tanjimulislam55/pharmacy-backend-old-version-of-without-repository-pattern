@@ -27,6 +27,21 @@ class CustomerService():
     def get_by_email(self, email: EmailStr, db: Session) -> Optional[Customer]:
         return db.query(Customers).filter(Customers.email == email).first()
 
+    def delete(self, id: int, db: Session):
+        if not db.query(Customers).filter(Customers.id == id).first():
+            return f"Customer not found for id {id}"
+        db.query(Customers).filter(Customers.id == id).delete(synchronize_session="evaluate")
+        db.commit()
+
+    def update(self, customer_id: int, db_in: CustomerUpdate, db: Session) -> Optional[Customers]:
+        db.query(Customers).filter(
+            Customers.id == customer_id
+        ).update(
+            db_in.dict(exclude_unset=True), synchronize_session="evaluate"
+        )
+        db.commit()
+        return db.query(Customers).filter(Customers.id == customer_id).first()
+    
 
 
 customer_service = CustomerService()

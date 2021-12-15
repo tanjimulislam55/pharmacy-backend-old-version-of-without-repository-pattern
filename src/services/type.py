@@ -24,4 +24,12 @@ class TypeService():
             return f"Type not found for id {id}"
         return db.query(Types).filter(Types.id == id).delete(synchronize_session='evaluate')
 
+    def update(self, id: int, name: str, db: Session) -> Optional[Types]:
+        db.query(Types).filter(Types.id == id).update(
+            {Types.name: name}, synchronize_session=False
+        )
+        db.commit()
+        return db.query(Types).filter(Types.id == id).first()
+
+
 type_service = TypeService()
