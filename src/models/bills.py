@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey, Float, Text, Date, DateTime
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 
 from db.config import Base
 
@@ -13,8 +14,8 @@ class Bills(Base):
     due_amount = Column(Float, default=0.0)
     note = Column(Text)
     billing_date = Column(Date, nullable=False)
-    created_at = Column(DateTime, nullable=False)
-    updated_at = Column(DateTime, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
     bill_lines = relationship("BillLines", back_populates="bill")
 
@@ -26,6 +27,8 @@ class BillLines(Base):
     price = Column(Float, nullable=False)
     qty = Column(Integer, default=0, nullable=False)
     profit_per_bill = Column(Float, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
     medicine_id = Column(Integer, ForeignKey("medicines.id"))
     bill_id = Column(Integer, ForeignKey("bills.id"))

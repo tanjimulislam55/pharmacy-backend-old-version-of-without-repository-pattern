@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey, Float, Text, Date, DateTime
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 
 from db.config import Base
 
@@ -13,8 +14,8 @@ class Purchases(Base):
     due_amount = Column(Float, default=0.0)
     note = Column(Text)
     purchase_date = Column(Date, nullable=False)
-    created_at = Column(DateTime, nullable=False)
-    updated_at = Column(DateTime, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
     purchase_lines = relationship("PurchaseLines", back_populates="purchase")
 
